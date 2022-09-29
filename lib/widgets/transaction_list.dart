@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -21,17 +20,17 @@ class TransactionList extends StatelessWidget {
                   horizontal: 15,
                 ),
                 child: Text(
-                  '\$${transactions[index].amount}',
+                  '\$${transactions[index].amount.toStringAsFixed(2)}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    color: Colors.purple,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 decoration: BoxDecoration(
                     border: Border.all(
                       width: 2,
-                      color: Colors.purple,
+                      color: Theme.of(context).primaryColor,
                     ),
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
