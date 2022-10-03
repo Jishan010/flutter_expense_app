@@ -4,8 +4,9 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final Function deleteTx;
 
-  TransactionList(this.transactions);
+  TransactionList(this.transactions,this.deleteTx);
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +15,12 @@ class TransactionList extends StatelessWidget {
       child: transactions.isEmpty
           ? Column(
               children: [
-                Text('No transactions added yet!'),
+                Text(
+                  'No transactions added yet!',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Container(
                   height: 200,
@@ -30,43 +34,33 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
-                  child: Row(children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 15,
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.all(6),
+                          child: FittedBox(
+                            child: Text('\$${transactions[index].amount}'),
+                          ),
+                        ),
                       ),
-                      child: Text(
-                        '\$${transactions[index].amount.toStringAsFixed(2)}',
+                      title: Text(
+                        transactions[index].title,
                         style: Theme.of(context).textTheme.headline6,
                       ),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 2,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                              bottomRight: Radius.circular(10))),
-                      padding: EdgeInsets.all(10),
+                      subtitle: Text(
+                        DateFormat.yMMMd().format(transactions[index].date),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        color: Colors.grey,
+                        onPressed: () => deleteTx(transactions[index].id),
+                      ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          transactions[index].title,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        Text(
-                            DateFormat.yMMMEd()
-                                .format(transactions[index].date),
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ))
-                      ],
-                    )
-                  ]),
+                  ),
                 );
               },
               itemCount: transactions.length,
