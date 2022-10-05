@@ -49,6 +49,7 @@ class _NewTransactionState extends State<NewTransaction> {
         _selectedDate = pickedDate;
       });
     });
+    print('...');
   }
 
   @override
@@ -70,12 +71,16 @@ class _NewTransactionState extends State<NewTransaction> {
                 decoration: InputDecoration(labelText: 'Title'),
                 controller: _titleController,
                 onSubmitted: (_) => _submitData(),
+                // onChanged: (val) {
+                //   titleInput = val;
+                // },
               ),
               TextField(
                 decoration: InputDecoration(labelText: 'Amount'),
                 controller: _amountController,
                 keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
+                // onChanged: (val) => amountInput = val,
               ),
               Container(
                 height: 70,
@@ -87,12 +92,14 @@ class _NewTransactionState extends State<NewTransaction> {
                           : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}'),
                     ),
                     TextButton(
-                      child: Text(
-                        'Choose Date',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
                       style: TextButton.styleFrom(
                         primary: Theme.of(context).primaryColor,
+                      ),
+                      child: Text(
+                        'Choose Date',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       onPressed: _presentDatePicker,
                     ),
@@ -101,13 +108,12 @@ class _NewTransactionState extends State<NewTransaction> {
               ),
               ElevatedButton(
                 child: Text('Add Transaction'),
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                  backgroundColor:
-                      MaterialStateProperty.all(Theme.of(context).primaryColor),
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).primaryColor,
+                  onPrimary: Theme.of(context).textTheme.button.color,
                 ),
                 onPressed: _submitData,
-              )
+              ),
             ],
           ),
         ),
